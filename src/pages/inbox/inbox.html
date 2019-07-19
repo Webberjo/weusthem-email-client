@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Inbox</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-sliding *ngFor="let email of emails$ | async" (click)="openEmail(email)">
+      <ion-col col-3>{{email.subject}}</ion-col>
+      <ion-col>{{email.body}}</ion-col>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

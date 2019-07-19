@@ -1,8 +1,7 @@
 import 'rxjs/add/operator/toPromise';
-
 import { Injectable } from '@angular/core';
 
-import { Api } from '../api/api';
+import { ApiProvider } from '../api/api';
 
 /**
  * Most apps have the concept of a User. This is a simple provider
@@ -24,10 +23,10 @@ import { Api } from '../api/api';
  * If the `status` field is not `success`, then an error is detected and returned.
  */
 @Injectable()
-export class User {
+export class UserProvider {
   _user: any;
 
-  constructor(public api: Api) { }
+  constructor(public api: ApiProvider) { }
 
   /**
    * Send a POST request to our login endpoint with the data
@@ -37,6 +36,7 @@ export class User {
     let seq = this.api.post('login', accountInfo).share();
 
     seq.subscribe((res: any) => {
+      console.log(res);
       // If the API returned a successful response, mark the user as logged in
       if (res.status == 'success') {
         this._loggedIn(res);
