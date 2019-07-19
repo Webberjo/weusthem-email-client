@@ -2,6 +2,7 @@ import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 
 import { ApiProvider } from '../api/api';
+import { User } from '../../models';
 
 /**
  * Most apps have the concept of a User. This is a simple provider
@@ -24,7 +25,7 @@ import { ApiProvider } from '../api/api';
  */
 @Injectable()
 export class UserProvider {
-  _user: any;
+  _user: User;
 
   constructor(public api: ApiProvider) { }
 
@@ -36,7 +37,6 @@ export class UserProvider {
     let seq = this.api.post('login', accountInfo).share();
 
     seq.subscribe((res: any) => {
-      console.log(res);
       // If the API returned a successful response, mark the user as logged in
       if (res.status == 'success') {
         this._loggedIn(res);
@@ -78,7 +78,7 @@ export class UserProvider {
   /**
    * Process a login/signup response to store user data
    */
-  _loggedIn(resp) {
+  _loggedIn(resp: any) {
     this._user = resp.user;
   }
 }

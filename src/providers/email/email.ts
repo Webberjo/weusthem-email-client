@@ -13,7 +13,13 @@ export class EmailProvider {
   }
 
   getEmails(): Observable<any> {
-    return this.api.get('email', { 'user': this.user._user });
+    let params = {
+      'pageName': 'inbox',
+      'pageNumber': 0,
+      'pageSize': 25,
+      'user': this.user._user
+    }
+    return this.api.get('email', params);
   }
 
   sendEmail(email: Email) {

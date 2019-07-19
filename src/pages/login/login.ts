@@ -32,12 +32,28 @@ export class LoginPage {
     })
   }
 
+  ionViewWillLoad() {
+    if (this.user._user) {
+      this.navCtrl.setRoot('InboxPage');
+    }
+  }
+
   // Attempt to login in through our User service
   doLogin() {
     this.user.login(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
+      if (resp && resp['status'] === 'success') {
+        this.navCtrl.push(MainPage);
+      }
+      else {
+        let toast = this.toastCtrl.create({
+          message: resp['message'],
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      }
     }, (err) => {
-      this.navCtrl.push(MainPage);
+      //this.navCtrl.push(MainPage);
       // Unable to log in
       let toast = this.toastCtrl.create({
         message: this.loginErrorString,

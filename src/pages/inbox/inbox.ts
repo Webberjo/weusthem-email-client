@@ -11,21 +11,23 @@ import { UserProvider, EmailProvider } from '../../providers';
   templateUrl: 'inbox.html',
 })
 export class InboxPage {
-  emails$: Observable<Email[]>;
+  emails$: Observable<any>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private user: UserProvider, private emailProvider: EmailProvider) {
   }
 
   ionViewWillLoad() {
-    console.log('ionViewWillLoad InboxPage');
-    this.emails$ = this.emailProvider.getEmails();
-    this.emails$.subscribe(emails => {
-      console.log('emails', emails);
-    });
+    if (!this.user._user) {
+      this.navCtrl.setRoot('WelcomePage');
+    }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad InboxPage');
+    this.emails$ = this.emailProvider.getEmails();
+    this.emails$.subscribe(emails => {
+      console.log('emails', emails);
+    });
   }
 
 }
